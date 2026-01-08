@@ -21,12 +21,15 @@
   subsubtitle: 14pt,
   large: 12pt,
   normal: 10pt,
-  small: 8pt,
+  small: 9pt,
 )
 
 #let translation = (
   "en": (
     section: "section",
+    image: "Figure",
+    table: "Table",
+    algorithm: "Algorithm",
     supervisor: "Supervisor",
     examiner: "Examiner",
     theorem: "Theorem",
@@ -56,6 +59,9 @@
   ),
   "de": (
     section: "Abschnitt",
+    image: "Abbildung",
+    table: "Tabelle",
+    algorithm: "Algorithmus",
     supervisor: "Betreuer",
     examiner: "Prüfer",
     theorem: "Satz",
@@ -226,6 +232,12 @@
   set math.equation(numbering: "(1)")
   set math.mat(delim: "[")
 
+  // figures
+  show figure: set block(above: 2em, below: 2em)
+  show figure: set figure(gap: 0.8em)
+  show figure.caption: c => block(width: 94%)[
+    #text(size: sizes.small)[*#c.supplement #c.counter.display(c.numbering)#c.separator* #c.body]
+  ]
 
   // list of contents
   set page(numbering: "I")
