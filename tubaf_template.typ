@@ -230,7 +230,10 @@
   })
 
   set math.equation(numbering: "(1)")
-  set math.mat(delim: "[")
+  set math.mat(delim: "(")
+  show math.equation.where(block: true): set par(justify: true, leading: 1em)
+  
+  set enum(spacing: 1em, numbering: "1)")
 
   // figures
   show figure: set block(above: 2em, below: 2em)
