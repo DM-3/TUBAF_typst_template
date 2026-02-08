@@ -233,6 +233,7 @@
   set math.mat(delim: "(")
   show math.equation.where(block: true): set par(justify: true, leading: 1em)
   
+  set list(spacing: 1em)
   set enum(spacing: 1em, numbering: "1)")
 
   // figures
