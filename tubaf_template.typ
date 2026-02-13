@@ -95,6 +95,60 @@
 #let in-outline = state("in-outline", false)
 #let flex-caption(short: none, long: none) = context if state("in-outline", false).get() { short} else { long }
 
+// colored boxes for notes, warnings, etc
+#let _create-box(title, content, bg-color, text-color, border-color) = {
+  block(
+    fill: bg-color,
+    stroke: (left: 3pt + border-color),
+    inset: 1em,
+    radius: 0.25em,
+  )[
+    #text(weight: "bold", fill: text-color)[#title]
+    
+    #text(fill: text-color)[#content]
+  ]
+}
+
+#let note(content) = _create-box(
+  "Note: ",
+  content,
+  colors.Uniblau.lighten(80%),
+  colors.Dunkelblau,
+  colors.Uniblau,
+)
+
+#let warning(content) = _create-box(
+  "Warnung: ",
+  content,
+  rgb("#fef3cd").lighten(20%),
+  rgb("#856404"),
+  rgb("#ffc107"),
+)
+
+#let important(content) = _create-box(
+  "Wichtig: ",
+  content,
+  rgb("#f8d7da").lighten(20%),
+  rgb("#721c24"),
+  rgb("#dc3545"),
+)
+
+#let tip(content) = _create-box(
+  "Tipp: ",
+  content,
+  rgb("#d4edda").lighten(20%),
+  rgb("#155724"),
+  rgb("#28a745"),
+)
+
+#let danger(content) = _create-box(
+  "Gefahr: ",
+  content,
+  rgb("#f8d7da"),
+  rgb("#721c24"),
+  rgb("#dc3545"),
+)
+
 #let longdate(
   lang: "en",
   datetime,
@@ -133,6 +187,7 @@
 #let report(
   type: "",
   title: "",
+  subtitle: "",
   authors: (
     (
       title: "", 
@@ -178,6 +233,10 @@
     text(size: sizes.subtitle)[#type]
     v(0pt)
     text(size: sizes.title)[*#title*]
+    if subtitle != "" {
+      v(0.5cm)
+      text(size: sizes.large, weight: "semibold")[#subtitle]
+    }
     v(1cm)
     for author in authors {
       text(size: sizes.large)[#author.name]
