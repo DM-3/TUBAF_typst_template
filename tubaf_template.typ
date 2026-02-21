@@ -42,6 +42,11 @@
     table_of_figures: "Table of Figures",
     table_of_tables: "Table of Tables",
     declaration_of_authenticity: "Declaration of Authenticity",
+    note: "Note",
+    tip: "Tip",
+    warning: "Warning",
+    important: "Important",
+    danger: "Danger",
     months: (
       "January",
       "February",
@@ -74,6 +79,11 @@
     table_of_figures: "Abbildungsverzeichnis",
     table_of_tables: "Tabellenverzeichnis",
     declaration_of_authenticity: "Eigenständigkeitserklärung",
+    note: "Hinweis",
+    tip: "Tipp",
+    warning: "Warnung",
+    important: "Wichtig",
+    danger: "Gefahr",
     months: (
       "Januar",
       "Februar",
@@ -104,45 +114,44 @@
     radius: 0.25em,
   )[
     #text(weight: "bold", fill: text-color)[#title]
-    
     #text(fill: text-color)[#content]
   ]
 }
 
-#let note(content) = _create-box(
-  "Note: ",
+#let note(lang: "en", content) = _create-box(
+  [#translation.at(lang).note: ],
   content,
   colors.Uniblau.lighten(80%),
   colors.Dunkelblau,
   colors.Uniblau,
 )
 
-#let warning(content) = _create-box(
-  "Warnung: ",
-  content,
-  rgb("#fef3cd").lighten(20%),
-  rgb("#856404"),
-  rgb("#ffc107"),
-)
-
-#let important(content) = _create-box(
-  "Wichtig: ",
-  content,
-  rgb("#f8d7da").lighten(20%),
-  rgb("#721c24"),
-  rgb("#dc3545"),
-)
-
-#let tip(content) = _create-box(
-  "Tipp: ",
+#let tip(lang: "en", content) = _create-box(
+  [#translation.at(lang).tip: ],
   content,
   rgb("#d4edda").lighten(20%),
   rgb("#155724"),
   rgb("#28a745"),
 )
 
-#let danger(content) = _create-box(
-  "Gefahr: ",
+#let warning(lang: "en", content) = _create-box(
+  [#translation.at(lang).warning: ],
+  content,
+  rgb("#fef3cd").lighten(20%),
+  rgb("#856404"),
+  rgb("#ffc107"),
+)
+
+#let important(lang: "en", content) = _create-box(
+  [#translation.at(lang).important: ],
+  content,
+  rgb("#f8d7da").lighten(20%),
+  rgb("#721c24"),
+  rgb("#dc3545"),
+)
+
+#let danger(lang: "en", content) = _create-box(
+  [#translation.at(lang).danger: ],
   content,
   rgb("#f8d7da"),
   rgb("#721c24"),
