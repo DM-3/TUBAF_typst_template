@@ -42,6 +42,11 @@
     table_of_figures: "Table of Figures",
     table_of_tables: "Table of Tables",
     declaration_of_authenticity: "Declaration of Authenticity",
+    note: "Note",
+    tip: "Tip",
+    warning: "Warning",
+    important: "Important",
+    danger: "Danger",
     months: (
       "January",
       "February",
@@ -74,6 +79,11 @@
     table_of_figures: "Abbildungsverzeichnis",
     table_of_tables: "Tabellenverzeichnis",
     declaration_of_authenticity: "Eigenständigkeitserklärung",
+    note: "Hinweis",
+    tip: "Tipp",
+    warning: "Warnung",
+    important: "Wichtig",
+    danger: "Gefahr",
     months: (
       "Januar",
       "Februar",
@@ -94,6 +104,59 @@
 // https://github.com/typst/typst/issues/1295
 #let in-outline = state("in-outline", false)
 #let flex-caption(short: none, long: none) = context if state("in-outline", false).get() { short} else { long }
+
+// colored boxes for notes, warnings, etc
+#let _create-box(title, content, bg-color, text-color, border-color) = {
+  block(
+    fill: bg-color,
+    stroke: (left: 3pt + border-color),
+    inset: 1em,
+    radius: 0.25em,
+  )[
+    #text(weight: "bold", fill: text-color)[#title]
+    #text(fill: text-color)[#content]
+  ]
+}
+
+#let note(lang: "en", content) = _create-box(
+  [#translation.at(lang).note: ],
+  content,
+  colors.Uniblau.lighten(80%),
+  colors.Dunkelblau,
+  colors.Uniblau,
+)
+
+#let tip(lang: "en", content) = _create-box(
+  [#translation.at(lang).tip: ],
+  content,
+  rgb("#d4edda").lighten(20%),
+  rgb("#155724"),
+  rgb("#28a745"),
+)
+
+#let warning(lang: "en", content) = _create-box(
+  [#translation.at(lang).warning: ],
+  content,
+  rgb("#fef3cd").lighten(20%),
+  rgb("#856404"),
+  rgb("#ffc107"),
+)
+
+#let important(lang: "en", content) = _create-box(
+  [#translation.at(lang).important: ],
+  content,
+  rgb("#f8d7da").lighten(20%),
+  rgb("#721c24"),
+  rgb("#dc3545"),
+)
+
+#let danger(lang: "en", content) = _create-box(
+  [#translation.at(lang).danger: ],
+  content,
+  rgb("#f8d7da"),
+  rgb("#721c24"),
+  rgb("#dc3545"),
+)
 
 #let longdate(
   lang: "en",
@@ -133,6 +196,7 @@
 #let report(
   type: "",
   title: "",
+  subtitle: "",
   authors: (
     (
       title: "", 
@@ -178,6 +242,10 @@
     text(size: sizes.subtitle)[#type]
     v(0pt)
     text(size: sizes.title)[*#title*]
+    if subtitle != "" {
+      v(0.5cm)
+      text(size: sizes.large, weight: "semibold")[#subtitle]
+    }
     v(1cm)
     for author in authors {
       text(size: sizes.large)[#author.name]
