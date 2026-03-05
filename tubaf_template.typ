@@ -267,7 +267,7 @@
     show outline: set heading(outlined: true)
     outline(title: translation.at(lang).table_of_tables, target: figure.where(kind: table))
   }
-  table-outline()
+  //table-outline()
 
 
   // additional outlines
