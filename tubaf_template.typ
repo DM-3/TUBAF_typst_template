@@ -262,15 +262,6 @@
   }
   image-outline()
 
-
-  // list of tables
-  let table-outline() = {
-    show outline: set heading(outlined: true)
-    outline(title: translation.at(lang).table_of_tables, target: figure.where(kind: table))
-  }
-  //table-outline()
-
-
   // additional outlines
   for outline in extra_outlines [#outline()]
 
