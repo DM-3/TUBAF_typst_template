@@ -155,6 +155,7 @@
     )
   ),
   location: "Freiberg",
+  date: datetime.today(),
   lang: "en",
   decl_authenticity: true,
   extra_outlines: (),
@@ -200,7 +201,7 @@
 
   // declaration of authenticity
   if decl_authenticity {
-    declaration_of_authenticity(authors, datetime.today(), location, lang: lang)
+    declaration_of_authenticity(authors, date, location, lang: lang)
   }
   
 
