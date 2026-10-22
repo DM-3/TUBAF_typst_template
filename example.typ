@@ -38,6 +38,7 @@
 #show: tubaf.report.with(
   type: "Praktikumsbericht",
   title: "Fachpraktikum Robotik bei wichtigem Unternehmen",
+  subtitle: "Subtitel des Berichts",
   authors: ((
     name: "Shorton Kreditz",
     studentID: "12345",
@@ -67,8 +68,15 @@
 )
 #lorem(100)
 
+
 = Wissensstand
 #lorem(200)
+
+
+*Die folgenden Hinweise sind eher nicht in einer Abschlussarbeit zu verwenden, da sie zu informell sind, aber für Praktika etc. vlt:*
+#tubaf.note(lang: "de", [Dies ist ein informeller Hinweis])
+#tubaf.tip(lang: "de", [Verwende diese Sektion, für Tipps.])
+#tubaf.warning(lang: "de", [Dies ist eine Warnung.])
 
 = Untersuchungen
 #lorem(50)
