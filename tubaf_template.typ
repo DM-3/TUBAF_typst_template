@@ -1,3 +1,6 @@
+// --- Presentation Extension ---
+#import "@preview/polylux:0.4.0": slide as polylux-slide
+
 // references:
 // https://tu-freiberg.de/zuv/dezernat-5-universitaetskommunikation/corporate-design
 // https://tu-freiberg.de/zuv/d5/corporate-design/markenlogo
@@ -345,4 +348,104 @@
   if references != "" {
     bibliography(references, title: translation.at(lang).bibliography)
   }
+}
+
+// global state for presentations
+#let presentation-title = state("presentation-title", "")
+#let presentation-author = state("presentation-author", "")
+
+#let presentation(
+  title: "Click to add title",
+  subtitle: "Click to add subtitle",
+  bottom-text: "Click to add text",
+  author: "Title & Name of the author",
+  lang: "en",
+  body,
+) = {
+  presentation-title.update(title)
+  presentation-author.update(author)
+
+  // general settings
+  set page(paper: "presentation-16-9", margin: 2cm)
+  set text(font: "Arial", size: 16pt, lang: lang)
+  
+  // cover slide
+  {
+    set page(paper: "presentation-16-9", margin: 0cm)
+
+    // TUBAF Logo 
+    place(top + left, dx: 10mm, dy: 15mm)[
+      #image("TUBAF_Logo_blau.svg", width: 65mm)
+    ]
+
+    // title
+    place(horizon + left, dx: 35mm, dy: -23mm)[
+      #text(size: 30pt, weight: "bold", fill: colors.Dunkelblau, title) \
+    ]
+
+    // subtitle
+    place(horizon + left, dx: 35mm, dy: 5mm)[
+      #text(size: 24pt, fill: colors.Dunkelblau, subtitle)
+    ]
+    
+    // blue wedge
+    polygon(
+      fill: colors.Dunkelblau,
+      stroke: none,
+      (0%, 75%),    // Top-left
+      (100%, 60%),   // Top-right
+      (100%, 100%), // Bottom-right
+      (0%, 100%),   // Bottom-left
+    )
+
+    // footer text
+    place(bottom + left, dx: 33mm, dy: -21mm)[
+      #text(size: 16pt, fill: color.white, bottom-text)
+    ]
+
+    // footer line
+    place(bottom + left)[
+      #line(start: (20mm, 27mm), end: (20mm, 0mm), stroke: 1pt + color.white)
+    ]
+  }
+
+  // header settings
+  set heading(supplement: translation.at(lang).section)
+  show heading.where(level: 1): it => {
+    pagebreak(weak: true)
+    v(0.5em)
+    text(size: sizes.title, fill: colors.Dunkelblau, it)
+    v(1em)
+  }
+
+  // footer
+  set page(footer: {
+    // text
+    place(bottom + left, dx: -20mm, dy: -10mm)[
+      #grid(
+        columns: (18mm, 1fr),
+        column-gutter: 6mm,
+        align: (right + top, left + top),
+        
+        text(size: sizes.normal, fill: colors.Dunkelblau, context [#counter(page).display()]),
+        text(size: sizes.normal, fill: colors.Dunkelblau, context [
+          #presentation-author.get() \ 
+          #presentation-title.get()
+        ]),
+      )
+    ]
+
+    // line
+    place(bottom + left)[
+      #line(start: (0mm, 0mm), end: (0mm, 20mm), stroke: 1pt + colors.Dunkelblau)
+    ]
+
+    // TUBAF logo
+    place(bottom + right, dx: 15mm, dy: -5mm)[
+      #image("TUBAF_Logo_blau.svg", height: 17mm)
+    ]
+  })
+
+  // content slides
+  body
 }
