@@ -379,7 +379,7 @@
     ]
 
     // title
-    place(horizon + left, dx: 35mm, dy: -23mm)[
+    place(horizon + left, dx: 35mm, dy: -20mm)[
       #text(size: 30pt, weight: "bold", fill: colors.Dunkelblau, title) \
     ]
 
