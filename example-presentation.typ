@@ -5,7 +5,7 @@
   title: "Projektseminar Robotik",
   subtitle: "Anforderung Zwischenpräsentation",
   author: "Prof. Dr.-Ing. Dr. h.c. Nick Nayme, Shorton Kreditz",
-  bottom-text: tubaf.longdate(datetime.today()),
+  bottom-text: [#tubaf.longdate(datetime.today())\ Wintersemester],
   lang: "de"
 )
 

@@ -399,7 +399,7 @@
     )
 
     // footer text
-    place(bottom + left, dx: 33mm, dy: -21mm)[
+    place(top + left, dx: 33mm, dy: 141mm)[
       #text(size: 16pt, fill: color.white, bottom-text)
     ]
 
@@ -441,8 +441,8 @@
     ]
 
     // TUBAF logo
-    place(bottom + right, dx: 15mm, dy: -5mm)[
-      #image("TUBAF_Logo_blau.svg", height: 17mm)
+    place(bottom + right, dx: 8mm, dy: -5mm)[
+      #image("TUBAF_Siegel_blau.svg", height: 20mm)
     ]
   })
 
