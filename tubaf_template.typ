@@ -286,6 +286,7 @@
       text(size: sizes.large)[#author.name]
       linebreak()
       text(size: sizes.small)[#translation.at(lang).studentID: #author.studentID]
+      linebreak()
     }
     v(1fr)
 
