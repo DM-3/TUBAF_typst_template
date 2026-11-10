@@ -1,13 +1,6 @@
 #import "tubaf_template.typ" as tubaf
 
 
-// function for list of tables
-#let table_outline() = {
-  show outline: set heading(outlined: true)
-  outline(title: "Tabellenverzeichnis", target: figure.where(kind: table))
-}
-
-
 // function for table of symbols and acronyms
 #let table_of_symbols() = {
   show outline: set heading(outlined: true)
@@ -55,7 +48,9 @@
     name: "Nick Nayme",
   ),),
   lang: "de",
-  extra_outlines: (table_outline, table_of_symbols,),
+  images_outlined: true,
+  tables_outlined: true,
+  extra_outlines: (table_of_symbols,),
   institute: tubaf.faculties.fak5.institutes.inbm
   //references: "references.bib"
 )

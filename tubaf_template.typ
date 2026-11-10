@@ -245,6 +245,8 @@
   date: datetime.today(),
   lang: "en",
   decl_authenticity: true,
+  images_outlined: true,
+  tables_outlined: false,
   extra_outlines: (),
   references: "",
   body,
@@ -286,16 +288,22 @@
       text(size: sizes.small)[#translation.at(lang).studentID: #author.studentID]
     }
     v(1fr)
-    text(size: sizes.large)[#translation.at(lang).supervisor #linebreak()]
-    for supervisor in supervisors {
-      text(size: sizes.large, weight: "semibold")[#supervisor.title #supervisor.name #linebreak()]
+
+    if supervisors.len() > 0 {
+      text(size: sizes.large)[#translation.at(lang).supervisor #linebreak()]
+      for supervisor in supervisors {
+        text(size: sizes.large, weight: "semibold")[#supervisor.title #supervisor.name #linebreak()]
+      }
+      v(1cm)
     }
-    v(1cm)
-    text(size: sizes.large)[#translation.at(lang).examiner #linebreak()]
-    for examiner in examiners {
-      text(size: sizes.large, weight: "semibold")[#examiner.title #examiner.name #linebreak()]
+
+    if examiners.len() > 0 {
+      text(size: sizes.large)[#translation.at(lang).examiner #linebreak()]
+      for examiner in examiners {
+        text(size: sizes.large, weight: "semibold")[#examiner.title #examiner.name #linebreak()]
+      }
+      v(1cm)
     }
-    v(1cm)
   }
 
 
@@ -344,7 +352,7 @@
     #text(size: sizes.small)[*#c.supplement #c.counter.display(c.numbering)#c.separator* #c.body]
   ]
 
-  // list of contents
+  // outline of contents
   set page(numbering: "I")
   outline(indent: 0.5cm)
   pagebreak()
@@ -355,12 +363,20 @@
     in-outline.update(false)
   }
 
-  // list of images
+  // outline of images
   let image-outline() = {
     show outline: set heading(outlined: true)
     outline(title: translation.at(lang).table_of_figures, target: figure.where(kind: image))
   }
-  image-outline()
+  if images_outlined { image-outline() }
+
+  // outline of tables
+  let table-outline() = {
+    show outline: set heading(outlined: true)
+    outline(title: translation.at(lang).table_of_tables, target: figure.where(kind: table))
+  }
+  if tables_outlined { table-outline() }
+
 
   // additional outlines
   for outline in extra_outlines [#outline()]
