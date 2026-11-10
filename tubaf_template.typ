@@ -7,6 +7,25 @@
 // https://tu-freiberg.de/corporate-design/typografie
 // https://tu-freiberg.de/zuv/d5/corporate-design/farbdefinition
 
+#let faculties = (
+  fak1: (
+    name: "Fakultät für Mathematik und Informatik",
+    institutes: (
+      iaa:  "Institut für Angewandte Analysis",
+      idma: "Institut für Diskrete Mathematik und Algebra",
+      inmo: "Institut für Numerische Mathematik und Optimierung",
+      ifs:  "Institut für Stochastik",
+      ifi:  "Institut für Informatik",
+    )
+  ),
+  fak5: (
+    name: "Fakultät für Werkstoffwissenschaft und Werkstofftechnologie",
+    institutes: (
+      inbm: "Institut für Nanoskalige und Biobasierte Materialien"
+    )
+  )
+)
+
 #let colors = (
   Uniblau:    rgb("#0069b4"),
   Dunkelblau: rgb("#00497f"),
@@ -222,6 +241,7 @@
     )
   ),
   location: "Freiberg",
+  institute: faculties.fak1.institutes.ifi,
   date: datetime.today(),
   lang: "en",
   decl_authenticity: true,
@@ -239,9 +259,18 @@
   counter(page).update(1)
   {
     set par(justify: false)
-    image("TUBAF_Logo_blau.svg", width: 42mm)
+    grid(columns: 2, column-gutter: 1fr, align: top)[
+      #image("logos/TUBAF_Logo_blau.svg", width: 42mm)
+    ][
+      #if institute == faculties.fak5.institutes.inbm {
+        image("logos/inbm_logo.png", width: 38mm)
+      }
+    ]
     v(5mm)
-    text(fill: colors.Dunkelblau, size: sizes.small)[*Fakultät für Mathematik und Informatik*\ Institut für Informatik]
+    let fak = faculties.pairs().find(pair 
+      => pair.at(1).institutes.values().contains(institute)).at(1)
+
+    text(fill: colors.Dunkelblau, size: sizes.small)[*#fak.name*\ #institute]
     v(1fr)
     text(size: sizes.subtitle)[#type]
     v(0pt)
@@ -375,7 +404,7 @@
 
     // TUBAF Logo 
     place(top + left, dx: 10mm, dy: 15mm)[
-      #image("TUBAF_Logo_blau.svg", width: 65mm)
+      #image("logos/TUBAF_Logo_blau.svg", width: 65mm)
     ]
 
     // title
@@ -442,7 +471,7 @@
 
     // TUBAF logo
     place(bottom + right, dx: 8mm, dy: -5mm)[
-      #image("TUBAF_Siegel_blau.svg", height: 20mm)
+      #image("logos/TUBAF_Siegel_blau.svg", height: 20mm)
     ]
   })
 

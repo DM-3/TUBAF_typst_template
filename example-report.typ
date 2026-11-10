@@ -56,12 +56,13 @@
   ),),
   lang: "de",
   extra_outlines: (table_outline, table_of_symbols,),
+  institute: tubaf.faculties.fak5.institutes.inbm
   //references: "references.bib"
 )
 
 = Einleitung
 #figure(
-  image("TUBAF_Logo_blau.svg"),
+  image("logos/TUBAF_Logo_blau.svg"),
   caption: tubaf.flex-caption(
     long: [Das Markenlogo ist das zentrale, identitätsstiftende Kernelement im visuellen Auftritt der Universität.],
     short: [Markenlogo])
