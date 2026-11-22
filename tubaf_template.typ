@@ -463,6 +463,12 @@
     text(size: sizes.title, fill: colors.Dunkelblau, it)
     v(1em)
   }
+  show heading.where(level: 2): it => {
+    pagebreak(weak: true)
+    v(0.5em)
+    text(size: sizes.title, fill: colors.Dunkelblau, it)
+    v(1em)
+  }
 
   // footer
   set page(footer: {
