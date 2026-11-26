@@ -125,9 +125,24 @@
 
 // https://github.com/typst/typst/issues/1295
 #let in-outline = state("in-outline", false)
+
+/// Selects a caption for use in `figure(caption: ...)` with `report`.
+/// The report's figure and table lists use `short`. The figure itself uses `long`.
+/// Each argument defaults to `none`. Supply both to show text in both places.
+///
+/// - short (none, content, str): Caption text in the outline.
+/// - long (none, content, str): Caption text next to the figure.
+/// -> content
 #let flex-caption(short: none, long: none) = context if state("in-outline", false).get() { short} else { long }
 
-// colored boxes for notes, warnings, etc
+/// Builds a callout with a bold label, a tinted background, and a left border.
+///
+/// - title (content, str): Label shown before the body. Include any separator.
+/// - content (content, str): Body of the callout.
+/// - bg-color (color): Background color.
+/// - text-color (color): Color of both the label and body.
+/// - border-color (color): Color of the left border.
+/// -> content
 #let _create-box(title, content, bg-color, text-color, border-color) = {
   block(
     fill: bg-color,
@@ -140,6 +155,11 @@
   ]
 }
 
+/// Adds a blue callout for supplementary information.
+///
+/// - lang (str): Label language, `"en"` or `"de"`. Defaults to `"en"`.
+/// - content (content, str): Note text.
+/// -> content
 #let note(lang: "en", content) = _create-box(
   [#translation.at(lang).note: ],
   content,
@@ -148,6 +168,11 @@
   colors.Uniblau,
 )
 
+/// Adds a green callout for practical advice.
+///
+/// - lang (str): Label language, `"en"` or `"de"`. Defaults to `"en"`.
+/// - content (content, str): Tip text.
+/// -> content
 #let tip(lang: "en", content) = _create-box(
   [#translation.at(lang).tip: ],
   content,
@@ -156,6 +181,11 @@
   rgb("#28a745"),
 )
 
+/// Adds an amber callout for a caution.
+///
+/// - lang (str): Label language, `"en"` or `"de"`. Defaults to `"en"`.
+/// - content (content, str): Warning text.
+/// -> content
 #let warning(lang: "en", content) = _create-box(
   [#translation.at(lang).warning: ],
   content,
@@ -164,6 +194,11 @@
   rgb("#ffc107"),
 )
 
+/// Adds a light red callout for information readers should notice.
+///
+/// - lang (str): Label language, `"en"` or `"de"`. Defaults to `"en"`.
+/// - content (content, str): Information to emphasize.
+/// -> content
 #let important(lang: "en", content) = _create-box(
   [#translation.at(lang).important: ],
   content,
@@ -172,6 +207,11 @@
   rgb("#dc3545"),
 )
 
+/// Adds a red callout for a hazard or serious risk.
+///
+/// - lang (str): Label language, `"en"` or `"de"`. Defaults to `"en"`.
+/// - content (content, str): Description of the danger.
+/// -> content
 #let danger(lang: "en", content) = _create-box(
   [#translation.at(lang).danger: ],
   content,
@@ -180,6 +220,11 @@
   rgb("#dc3545"),
 )
 
+/// Formats a calendar date as day, month name, and year, such as `3. Mai 2026`.
+///
+/// - lang (str): Month-name language, `"en"` or `"de"`.
+/// - datetime (datetime): Value with a year, month, and day.
+/// -> content
 #let longdate(
   lang: "en",
   datetime,
@@ -189,6 +234,14 @@
   #datetime.year()
 ]
 
+/// Inserts a declaration of authenticity on a page with no header or footer.
+/// The wording changes for one or several authors.
+///
+/// - authors (array): Author dictionaries with a `name` field.
+/// - datetime (datetime): Date printed in the signature area.
+/// - location (content, str): Place printed alongside the date.
+/// - lang (str): Language of the declaration and date, `"en"` or `"de"`.
+/// -> content
 #let declaration_of_authenticity(
   authors,
   datetime,
@@ -215,6 +268,28 @@
   v(1fr)
 }
 
+/// Applies the TUBAF A4 report layout. Use `#show: report.with(...)` to add
+/// a cover, the selected front matter, and an optional bibliography.
+///
+/// - type (content, str): Document type shown above the title on the cover.
+/// - title (content, str): Report title.
+/// - subtitle (content, str): Optional text below the title.
+/// - authors (array): Author dictionaries with `name` and `studentID`. Pass explicitly.
+/// - supervisors (array): Supervisor dictionaries with `title` and `name`. Pass `()` to omit.
+/// - examiners (array): Examiner dictionaries with `title` and `name`. Pass `()` to omit.
+/// - location (content, str): Place printed in the declaration.
+/// - institute (str): Institute name from `faculties`, used to look up the faculty.
+/// - date (datetime): Date printed in the declaration.
+/// - lang (str): Report language, `"en"` or `"de"`.
+/// - decl_authenticity (bool): Include the declaration of authenticity.
+/// - images_outlined (bool): Include the list of image figures.
+/// - tables_outlined (bool): Include the list of table figures.
+/// - extra_outlines (array): Functions called without arguments before the main text.
+/// - references (str, path, bytes, array): Bibliography sources. `""` omits the bibliography.
+///   Relative string paths resolve from this module. Use `read("references.bib", encoding: none)`
+///   in the calling file to load a bibliography next to that file.
+/// - body (content): Main report content.
+/// -> content
 #let report(
   type: "",
   title: "",
@@ -364,14 +439,14 @@
     in-outline.update(false)
   }
 
-  // outline of images
+  /// Builds a list of image figures with a heading in the table of contents.
   let image-outline() = {
     show outline: set heading(outlined: true)
     outline(title: translation.at(lang).table_of_figures, target: figure.where(kind: image))
   }
   if images_outlined { image-outline() }
 
-  // outline of tables
+  /// Builds a list of table figures with a heading in the table of contents.
   let table-outline() = {
     show outline: set heading(outlined: true)
     outline(title: translation.at(lang).table_of_tables, target: figure.where(kind: table))
@@ -400,6 +475,16 @@
 #let presentation-title = state("presentation-title", "")
 #let presentation-author = state("presentation-author", "")
 
+/// Applies the TUBAF 16:9 slide layout. Use `#show: presentation.with(...)` to
+/// add a title slide and a numbered footer. Level 1 and 2 headings start slides.
+///
+/// - title (content, str): Deck title shown on the title slide and in the footer.
+/// - subtitle (content, str): Text below the title on the title slide.
+/// - bottom-text (content, str): Text in the blue area of the title slide.
+/// - author (content, str): Author line in the footer of content slides.
+/// - lang (str): Presentation language, `"en"` or `"de"`.
+/// - body (content): Slide content after the title slide.
+/// -> content
 #let presentation(
   title: "Click to add title",
   subtitle: "Click to add subtitle",
