@@ -1,7 +1,9 @@
 #import "tubaf_template.typ" as tubaf
 
 
-// function for table of symbols and acronyms
+/// Adds the example's symbol and abbreviation lists with a heading in the
+/// table of contents. Pass this function to `report` via `extra_outlines`.
+/// -> content
 #let table_of_symbols() = {
   show outline: set heading(outlined: true)
   outline(
