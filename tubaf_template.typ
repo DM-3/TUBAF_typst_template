@@ -113,7 +113,7 @@
       "April",
       "Mai",
       "Juni",
-      "July",
+      "Juli",
       "August",
       "September",
       "Oktober",
